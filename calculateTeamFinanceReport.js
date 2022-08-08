@@ -20,24 +20,31 @@ const calculateTeamFinanceReport = function (salaries, team) {
     return;
   } else {
     // calculate total budget
-    const totalBudget = {};
-    totalBudget.totalBudgetTeam = 0;
-    team.reduce((prev, item, index, array) => {
-      // searching for position in salaries list
-      if (item.specialization in salaries) {
-        let salary = Math.round(salaries[item.specialization].salary);
-        let tax = Math.round(parseInt(salaries[item.specialization].tax) / 100);
 
-        totalBudget['totalBudgetTeam'] += salary + salary * tax;
-        // define, if posinion is already present in result obj
-        `totalBudget${item.specialization}` in totalBudget
-          ? (totalBudget[`totalBudget${item.specialization}`] +=
-              salary + salary * tax)
-          : (totalBudget[`totalBudget${item.specialization}`] =
-              salary + salary * tax);
-      }
-    }, 0);
-    return totalBudget;
+    const result = team.reduce(
+      (prev = {}, item, index, array) => {
+        // searching for position in salaries list
+        if (item.specialization in salaries) {
+          let salary = Math.round(salaries[item.specialization].salary);
+          let tax = parseInt(salaries[item.specialization].tax) / 100;
+
+          prev['totalBudgetTeam'] += Math.round(salary + salary * tax);
+
+          // define, if posinion is already present in result obj
+          `totalBudget${item.specialization}` in prev
+            ? (prev[`totalBudget${item.specialization}`] += Math.round(
+                salary + salary * tax
+              ))
+            : (prev[`totalBudget${item.specialization}`] = Math.round(
+                salary + salary * tax
+              ));
+        }
+
+        return prev;
+      },
+      { totalBudgetTeam: 0 }
+    );
+    return result;
   }
 };
 
