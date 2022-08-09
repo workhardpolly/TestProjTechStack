@@ -18,34 +18,33 @@ const calculateTeamFinanceReport = function (salaries, team) {
   if (isValidHighTaxes.length > 0 || isValidLowTaxes.length > 0) {
     console.log(`Check your tax rate, please`);
     return;
-  } else {
-    // calculate total budget
-
-    const result = team.reduce(
-      (prev = {}, item, index, array) => {
-        // searching for position in salaries list
-        if (item.specialization in salaries) {
-          let salary = Math.round(salaries[item.specialization].salary);
-          let tax = parseInt(salaries[item.specialization].tax) / 100;
-
-          prev['totalBudgetTeam'] += Math.round(salary + salary * tax);
-
-          // define, if posinion is already present in result obj
-          `totalBudget${item.specialization}` in prev
-            ? (prev[`totalBudget${item.specialization}`] += Math.round(
-                salary + salary * tax
-              ))
-            : (prev[`totalBudget${item.specialization}`] = Math.round(
-                salary + salary * tax
-              ));
-        }
-
-        return prev;
-      },
-      { totalBudgetTeam: 0 }
-    );
-    return result;
   }
+  // calculate total budget
+
+  const result = team.reduce(
+    (prev = {}, item, index, array) => {
+      // searching for position in salaries list
+      if (item.specialization in salaries) {
+        let salary = Math.round(salaries[item.specialization].salary);
+        let tax = parseInt(salaries[item.specialization].tax) / 100;
+
+        prev['totalBudgetTeam'] += Math.round(salary + salary * tax);
+
+        // define, if posinion is already present in result obj
+        `totalBudget${item.specialization}` in prev
+          ? (prev[`totalBudget${item.specialization}`] += Math.round(
+              salary + salary * tax
+            ))
+          : (prev[`totalBudget${item.specialization}`] = Math.round(
+              salary + salary * tax
+            ));
+      }
+
+      return prev;
+    },
+    { totalBudgetTeam: 0 }
+  );
+  return result;
 };
 
 module.exports = calculateTeamFinanceReport;

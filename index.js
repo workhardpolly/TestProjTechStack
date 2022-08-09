@@ -10,7 +10,7 @@ const team1 = [
 const salaries1 = {
   Manager: { salary: 1000, tax: '0%' },
   Designer: { salary: 1000.42, tax: '30%' },
-  Artist: { salary: 1000.99, tax: '15%' },
+  Artist: { salary: 1500.99, tax: '15%' },
 };
 
 const financeReport1 = calculateTeamFinanceReport(salaries1, team1);
